@@ -21,10 +21,15 @@ class MainActivity : AppCompatActivity() {
         goButton = findViewById(R.id.goButton)
         webView = findViewById(R.id.webView)
 
-        // Allow your browser to intercept hyperlink clicks
+        // Allow browser to intercept hyperlink clicks
         webView.webViewClient = object : WebViewClient() {
+
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
+
+                url?.run {
+                    urlEditText.setText(this)
+                }
             }
         }
 
@@ -35,13 +40,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun parseUrl(url: String): String {
-
-        return if (url.startsWith("https://") || url.startsWith("http://")){
+        return if (
+            url.startsWith("https://") ||
+            url.startsWith("http://")
+        ) {
             url
-        }
-        else {
+        } else {
             "https://$url"
         }
-
     }
 }
